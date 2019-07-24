@@ -2,6 +2,7 @@ import EsriMap = require("esri/Map");
 import SceneView = require("esri/views/SceneView");
 import Basemap = require("esri/Basemap");
 import Point = require("esri/geometry/Point");
+import Polyline = require("esri/geometry/Polyline");
 import GraphicsLayer = require("esri/layers/GraphicsLayer");
 import Graphic = require("esri/Graphic");
 import PopupTemplate = require("esri/PopupTemplate");
@@ -36,12 +37,12 @@ map.add(graphicsLayer);
  *************************/
 
 // Auburn
-let point = {
-  type: "point", // autocasts as new Point()
+let point = new Point({
+  //type: "point", // autocasts as new Point()
   x: -85.48171,
   y: 32.6065,
   z: 252
-};
+});
 
 let markerSymbol = {
   type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
@@ -57,7 +58,7 @@ let pointGraphic = new Graphic({
   symbol: markerSymbol,
   popupTemplate: new PopupTemplate({
     title: "Toomers Corner",
-    content: "<iframe width=\"460\" height=\"259\" src=\"https://www.youtube.com/embed/fZtQbsScCr4\" frameborder=\"0\" autoplay allowfullscreen></iframe>"
+    content: "<iframe width=\"460\" height=\"259\" src=\"https://www.youtube.com/embed/wVDtzDwo-1Q\" frameborder=\"0\" autoplay allowfullscreen></iframe>"
   })
 });
 
@@ -67,13 +68,13 @@ graphicsLayer.add(pointGraphic);
  * Add a 3D polyline graphic
  ****************************/
 
-let polyline = {
-  type: "polyline", // autocasts as new Polyline()
-  paths: [
+let polyline = new Polyline({
+  //type: "polyline", // autocasts as new Polyline()
+  paths: [[
     [-85.48171, 32.6065, 0],
     [-85.48171, 32.6065, 250]
-  ]
-};
+  ]]
+});
 
 let lineSymbol = {
   type: "simple-line", // autocasts as SimpleLineSymbol()

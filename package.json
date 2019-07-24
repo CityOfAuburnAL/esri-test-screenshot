@@ -17,10 +17,10 @@
   "author": "Rene Rubalcava <rrubalcava@esri.com>",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@types/arcgis-js-api": "^4.5.1",
-    "tslint": "^4.2.0"
+    "@types/arcgis-js-api": "^4.12.0",
+    "tslint": "^5.18.0"
   },
   "dependencies": {
-    "typescript": "^2.4.1"
+    "typescript": "^3.5.3"
   }
 }
