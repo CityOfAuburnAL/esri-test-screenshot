@@ -8,7 +8,8 @@
   },
   "scripts": {
     "dev": "tsc -w",
-    "lint": "tslint './app/*.ts'"
+    "lint": "tslint './app/*.ts'",
+    "deploy": "node deploy.js"
   },
   "keywords": [
     "esri",
@@ -21,6 +22,7 @@
     "tslint": "^5.18.0"
   },
   "dependencies": {
+    "fs-extra": "^8.1.0",
     "typescript": "^3.5.3"
   }
 }
