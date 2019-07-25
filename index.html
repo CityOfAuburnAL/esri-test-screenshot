@@ -13,6 +13,14 @@
         height: 100%;
         width: 100%;
       }
+      #viewDiv {
+        max-width: 1920px;
+        max-width: 1920px;
+        max-height: 1080px;
+        max-height: 1280px;
+        margin: 0 auto;
+        position: relative;
+      }
 
       #infoDiv {
         position: absolute;
@@ -31,6 +39,20 @@
         z-index: 999;
         right: 0;
       }
+
+      #titleDiv {
+        position: absolute;
+        z-index: 999;
+        left: 0;
+        bottom: 50px;
+
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 60px;
+
+        background: #03a9f4;
+        color: #FFF;
+        padding: 15px;
+      }
     </style>
     <link rel="stylesheet" href="https://js.arcgis.com/4.12/esri/css/main.css">
     <script>
@@ -47,21 +69,29 @@
     <script src="https://js.arcgis.com/4.12/"></script>
   </head>
   <body>
-    <img id="logo" src="https://static.auburnalabama.org/media/citylogos/pwa/mstile-150x150.png" crossorigin="anonymous" />
-    <div id="viewDiv"></div>
-    <div id="infoDiv">
-        <input
-          class="esri-component esri-widget--button esri-widget esri-interactive"
-          type="button"
-          id="switch-btn"
-          value="2D"
-        />
-        <input
-          class="esri-component esri-widget--button esri-widget esri-interactive"
-          type="button"
-          id="screenshot-btn"
-          value="SS"
-        />
+    <div id="viewDiv">
+        <img id="logo" src="https://static.auburnalabama.org/media/citylogos/pwa/mapdisclaimer-logo.png" crossorigin="anonymous" />
+        <div id="infoDiv">
+            <input
+              class="esri-component esri-widget--button esri-widget esri-interactive"
+              type="button"
+              id="switch-btn"
+              value="3D"
+            />
+            <input
+              class="esri-component esri-widget--button esri-widget esri-interactive"
+              type="button"
+              id="screenshot-btn"
+              value="SS"
+            />
+            <input style="display:none !important;"
+              class="esri-component esri-widget--button esri-widget esri-interactive"
+              type="button"
+              id="marker-btn"
+              value="M"
+            />
+        </div>
+        <div id="titleDiv" contenteditable="true">Example Title</div>
     </div>
     <script>require(["app/main"]);</script>
   </body>

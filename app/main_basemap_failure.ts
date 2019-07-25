@@ -9,9 +9,10 @@ import Graphic = require("esri/Graphic");
 import PopupTemplate = require("esri/PopupTemplate");
 import watchUtils = require("esri/core/watchUtils");
 import { SimpleMarkerSymbol, SimpleLineSymbol } from "esri/symbols";
+import TileLayer = require("esri/layers/TileLayer");
+import { Extent } from "esri/geometry";
 
 //MAP
-const startIn3D = false; // Don't forget to update index.html button value
 const map = new EsriMap({
   basemap: "streets" as any as Basemap
 });
@@ -19,32 +20,54 @@ const map = new EsriMap({
 //3D View
 const sceneView = new SceneView({
   map: map,
-  container: startIn3D ? "viewDiv" : null,
+  container: "viewDiv",
+  extent: new Extent({
+    xmin: 735122.7647182067,
+    ymin: 749291.5682165455,
+    xmax: 795309.2807898734,
+    ymax: 783742.0792388171,
+    spatialReference: {
+        wkid: 102629
+    }
+  }),
   camera: { // autocasts as new Camera()
     position: { // autocasts as new Point()
-      x: -85.48171,
-      y: 32.595,
+      x: 755000, //-85.48171,
+      y: 765000, //32.595,
       z: 1400
     },
     heading: 0.34445102566290225,
     tilt: 42.95536300536367
   }
 });
+sceneView.viewingMode = "local"; // helps if we ever have a 3D-capable basemap
 
 //2D View
 const mapView = new MapView({
   map: map,
-  container: startIn3D ? null : "viewDiv",
-  center: [-85.48171, 32.595],
-  zoom: 15
+  container: null, // "viewDiv",
+  extent: new Extent({
+    xmin: 735122.7647182067,
+    ymin: 749291.5682165455,
+    xmax: 795309.2807898734,
+    ymax: 783742.0792388171,
+    spatialReference: {
+        wkid: 102629
+    }
+  }),
+  zoom: 4,
+  spatialReference: {
+      wkid: 102629
+  }
 });
 
 //Application Data - to manage switching and active states
 let appConfig = {
   mapView: mapView,
   sceneView: sceneView,
-  activeView: startIn3D ? "3D" : "2D"
+  activeView: "3D"
 };
+// appConfig.activeScene = null; //default to 2D
 
 
 /*********************
@@ -62,16 +85,16 @@ watchUtils.whenTrue(appConfig.sceneView, "stationary", moveGraphic);
 watchUtils.whenTrue(appConfig.mapView, "stationary", moveGraphic);
 function moveGraphic() {
   var is3D = appConfig.activeView === "3D";
-  let x = -85.48171;
-  let y = 32.595;
+  let x = 755000;
+  let y = 765000;
   let z = 250;
 
   if (appConfig.sceneView.center && is3D) {
-    x = appConfig.sceneView.center.longitude;
-    y = appConfig.sceneView.center.latitude;
+    x = appConfig.sceneView.center.x;
+    y = appConfig.sceneView.center.y;
   } else if (appConfig.mapView.center && !is3D) {
-    x = appConfig.mapView.center.longitude;
-    y = appConfig.mapView.center.latitude;
+    x = appConfig.mapView.center.x;
+    y = appConfig.mapView.center.y;
   }
 
   //2D/3D point graphic
@@ -79,7 +102,10 @@ function moveGraphic() {
     geometry: new Point({
       x: x,
       y: y,
-      z: z+2
+      z: z+2,
+      spatialReference: {
+          wkid: 102629
+      }
     }),
     symbol: new SimpleMarkerSymbol({
       color: [226, 119, 40],
@@ -103,7 +129,10 @@ function moveGraphic() {
       paths: [[
         [x, y, 0],
         [x, y, z]
-      ]]
+      ]],
+      spatialReference: {
+          wkid: 102629
+      }
     }),
     symbol: new SimpleLineSymbol({
       color: [226, 119, 40],
@@ -197,7 +226,7 @@ function getImageWithLogoAndText(imageData:ImageData, text:string) {
 
   // add the text
   tcontext.font = "60px Arial";
-  tcontext.fillStyle = "#03a9f4";
+  tcontext.fillStyle = "#000";
   tcontext.fillRect(
     0,
     imageData.height - 120,
